@@ -1,3 +1,5 @@
+let scoreLbl = document.querySelector('#score');
+        score = 0;
 // Enemies our player must avoid
 var Enemy = function(x, y, speed) {
   // Variables applied to each of our instances go here,
@@ -49,11 +51,18 @@ class Player {
   update() {
     // return the player to starting point when he reaches the blue block after 1/2 second
     if (this.y < 0) {
+        
+        
       setTimeout(() => {
         this.x = 200;
         this.y = 405;
-      }, 500);
+    // add 20 as a score for each time player lands on the blue water (I made the score 0.65 cause I am using a time out)
+        score += 0.65;
+        scoreLbl.innerHTML = Math.floor(score);
+      },500 );
+    
     }
+    
    }
   render() {
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
@@ -79,31 +88,20 @@ class PlayerSelector {
     this.height = height; 
     this.block = block;
   }
-  update(){
+  update(dt){
       if (checkDetection(allplayers[1],this) === true){
             allplayers[1].x = 0;
-            allplayers[1].y = 555;
-            
-   
-
-     
-          let shuffledArray = shuffle(allplayers);
-         
-            setTimeout(() => {
+            allplayers[1].y = 555;    
+            let shuffledArray = shuffle(allplayers);
                 allplayers[1].x = 200;
                 allplayers[1].y = 405;
-                allplayers.forEach(player => {  
-                    if (allplayers[player] === allplayers[1]){
-                        console.log('hi') 
-                        allplayers[palyer].x = 200;
-                        allplayers[player].y = 405;
-                    }else{
-                        allplayers[palyer].x = -200;
-                        allplayers[player].y = -200;
+                allplayers.forEach(function(player){ 
+                    console.log(player);
+                    if (player === allplayers[1]){
+                         player.x = 200;
+                         player.y = 405;
                     }
-                    })
-              }, 500);
-        
+                    });
       }
   }
   render() {
@@ -147,10 +145,11 @@ let checkDetection = (object1, object2) => {
 };
 //  instantiate objects.
 // Place all enemy objects in an array called allEnemies
-let enemy1 = new Enemy(-100, 60, 160);
-let enemy2 = new Enemy(-120, 145, 130);
-let enemy3 = new Enemy(-100, 230, 160);
-let allEnemies = [enemy1, enemy2, enemy3];
+let enemy1 = new Enemy(-100, 60, 260);
+let enemy2 = new Enemy(-100, 145, 290);
+let enemy3 = new Enemy(-320, 145, 200);
+let enemy4 = new Enemy(-100, 230, 260);
+let allEnemies = [enemy1, enemy2, enemy3,enemy4];
 
 // Place the player object in a variable called player
 let boy = new Player(0, 555, "images/char-boy.png");
