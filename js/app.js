@@ -1,121 +1,190 @@
 // Enemies our player must avoid
-var Enemy = function(x,y,speed) {
-    // Variables applied to each of our instances go here,
-    // we've provided one for you to get started
+var Enemy = function(x, y, speed) {
+  // Variables applied to each of our instances go here,
+  // we've provided one for you to get started
 
-    // The image/sprite for our enemies, this uses
-    // a helper we've provided to easily load images
-    this.sprite = 'images/enemy-bug.png';
-    this.x = x;
-    this.y = y;
-    this.speed = speed;
-
+  // The image/sprite for our enemies, this uses
+  // a helper we've provided to easily load images
+  this.sprite = "images/enemy-bug.png";
+  this.x = x;
+  this.y = y;
+  this.width = 80; // get image width
+  this.height = 70; // get image height
+  this.speed = speed;
 };
 
 // Update the enemy's position, required method for game
 // Parameter: dt, a time delta between ticks
 Enemy.prototype.update = function(dt) {
-    // You should multiply any movement by the dt parameter
-    // which will ensure the game runs at the same speed for
-    // all computers.
-    // this.x +=  this.speed * dt;
-    // if (this.x > 510){
-    // }
+
+  this.x +=  this.speed * dt;
+   if (this.x > 505){
+      this.x=-115;
+ }
+  if (checkDetection(this,allplayers[1]) === true){
+    setTimeout(() => {
+        allplayers[1].x = 200;
+        allplayers[1].y = 405;
+      }, 1);
+  }
 };
 
 // Draw the enemy on the screen, required method for game
 Enemy.prototype.render = function() {
-    ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
+  ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
 };
 
 // Now write your own player class
 // This class requires an update(), render() and
 // a handleInput() method.
-    class Player{
-        // set the player on the starting positon (default paramaters) 
-        constructor(x = 200 , y = 405 , sprite){
-            this.x = x ;
-            this.y = y ;
-            this.sprite = sprite;
-            
-        }
-        update(){
-            // return the player to starting point when he reaches the blue block
-            if (this.y < 0){
-                setTimeout()
-                this.x = 200;
-                this.y = 405;
-            }
-        }
-        render(){
-            ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
-        }
-        handleInput(keyboardKeys){
-            if (keyboardKeys === 'left' && this.x > 0){
-                this.x -= 100;
-            }else if(keyboardKeys === 'right' && this.x <= 300){
-                this.x += 100;
-            }else if(keyboardKeys === 'up' && this.y > -10 ){
-                this.y -= 83;
-            }else if(keyboardKeys === 'down' && this.y <= 400){
-                this.y += 83;
-            }
-                
-            
-        }
+class Player {
+  // set the player on the starting positon (default paramaters)
+  constructor(x = 200, y = 405, sprite) {
+    this.x = x;
+    this.y = y;
+    this.width = 90; // get image width
+    this.height = 70; // get image height
+    this.sprite = sprite;
+  }
+  update() {
+    // return the player to starting point when he reaches the blue block after 1/2 second
+    if (this.y < 0) {
+      setTimeout(() => {
+        this.x = 200;
+        this.y = 405;
+      }, 500);
     }
+   }
+  render() {
+    ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
+  }
+  handleInput(keyboardKeys) {
+    if (keyboardKeys === "left" && this.x > 0) {
+      this.x -= 100;
+    } else if (keyboardKeys === "right" && this.x <= 300) {
+      this.x += 100;
+    } else if (keyboardKeys === "up" && this.y > -10) {
+      this.y -= 83;
+    } else if (keyboardKeys === "down" && this.y <= 400) {
+      this.y += 83;
+    }
+  }
+}
+class PlayerSelector {
+  // set the player on the starting positon (default paramaters)
+  constructor(x, y, block,width=100,height=170) {
+    this.x = x;
+    this.y = y;
+    this.width = width; 
+    this.height = height; 
+    this.block = block;
+  }
+  update(){
+      if (checkDetection(allplayers[1],this) === true){
+          let shuffledArray = shuffle(allplayers);
+         
+            setTimeout(() => {
+                allplayers[1].x = 200;
+                allplayers[1].y = 405;
+                allplayers.forEach(player => {  
+                    if (allplayers[player] === allplayers[1]){
+                        console.log('hi') 
+                        allplayers[palyer].x = 200;
+                        allplayers[player].y = 405;
+                    }else{
+                        allplayers[palyer].x = -200;
+                        allplayers[player].y = -200;
+                    }
+                    })
+              }, 500);
+        
+      }
+  }
+  render() {
+    ctx.drawImage(Resources.get(this.block), this.x, this.y,this.width,this.height);
+  }
+}
+/**
+ * Randomly shuffle an array
+ * https://stackoverflow.com/a/2450976/1293256
+ */
+var shuffle = (array) => {
 
-function checkDetection(x1,y1,x2,y2){
-    if (object1.x < object2.x + object2.width  && object1.x + object1.width  > object2.x &&
-        object1.y < object2.y + object2.height && object1.y + object1.height > object2.y) {
-// The objects are touching
-}
-}
-// Now instantiate your objects.
+	var currentIndex = array.length;
+	var temporaryValue, randomIndex;
+
+	// While there remain elements to shuffle...
+	while (0 !== currentIndex) {
+		// Pick a remaining element...
+		randomIndex = Math.floor(Math.random() * currentIndex);
+		currentIndex -= 1;
+
+		// And swap it with the current element.
+		temporaryValue = array[currentIndex];
+		array[currentIndex] = array[randomIndex];
+		array[randomIndex] = temporaryValue;
+	}
+
+	return array;
+
+};
+// this will check if two objects collide and update players position or change player selection .. (check engine.js)
+let checkDetection = (object1, object2) => {
+  if (
+    object1.x < object2.x + object2.width &&
+    object1.x + object1.width > object2.x &&
+    object1.y < object2.y + object2.height &&
+    object1.y + object1.height > object2.y
+  ) {
+    return true;
+  }
+};
+//  instantiate objects.
 // Place all enemy objects in an array called allEnemies
+let enemy1 = new Enemy(-100, 60, 160);
+let enemy2 = new Enemy(-120, 145, 130);
+let enemy3 = new Enemy(-100, 230, 160);
+let allEnemies = [enemy1, enemy2, enemy3];
+
 // Place the player object in a variable called player
-    let enemy1 = new Enemy(0,60,0);
-    let enemy2 = new Enemy(0,145,10);
-    let enemy3 = new Enemy(0,225,0);
-    let allEnemies = [enemy1,enemy2,enemy3];
+let boy = new Player(undefined, undefined, "images/char-boy.png");
+let pinkGirl = new Player(undefined, undefined, "images/char-pink-girl.png");
+let catGirl = new Player(undefined, undefined, "images/char-cat-girl.png");
+let hornGirl = new Player(undefined, undefined, "images/char-horn-girl.png");
+let princessGirl = new Player(undefined,undefined,"images/char-princess-girl.png");
+let allplayers = [boy, pinkGirl, catGirl, hornGirl, princessGirl];
 
+// intiliaze Player selector block
+ let selectorBlock = new PlayerSelector(0,392, "images/Selector.png");
 
-    let boy = new Player(undefined,undefined, 'images/char-boy.png');
-    let pinkGirl = new Player(undefined,undefined,'images/char-pink-girl.png');
-    let catGirl = new Player(undefined,undefined, 'images/char-cat-girl.png');
-    let hornGirl = new Player(undefined,undefined, 'images/char-horn-girl.png');
-    let princessGirl = new Player(undefined,undefined, 'images/char-princess-girl.png');
-    let allPlayer = [boy,pinkGirl,catGirl,hornGirl,princessGirl];
 // This listens for key presses and sends the keys to your
 // Player.handleInput() method. You don't need to modify this.
-document.addEventListener('keyup', function(e) {
-    var allowedKeys = {
-        37: 'left',
-        38: 'up',
-        39: 'right',
-        40: 'down'
-    };
+document.addEventListener("keyup", function(e) {
+  var allowedKeys = {
+    37: "left",
+    38: "up",
+    39: "right",
+    40: "down"
+  };
 
-       
-    allPlayer[1].handleInput(allowedKeys[e.keyCode]);
-    
+  allplayers[1].handleInput(allowedKeys[e.keyCode]);
+
 });
 
 // Creating Modal Constructor
 
-
 // let modal = document.getElementById("congratsModal");
 // let showModal = function() {
-  
+
 //     // let modalContent = document.getElementsByClassName("modal-content")[0];
 //     // close the modal when close button is clicked
-//     closeBtn.addEventListener("click", closeModal);    
+//     closeBtn.addEventListener("click", closeModal);
 
 //   };
 //   let closeModal = function() {
 //     modal.classList.toggle("d-none");
 //   };
-  
+
 //   showModal();
 
 // class Modal{
