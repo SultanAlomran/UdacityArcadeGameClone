@@ -81,6 +81,12 @@ class PlayerSelector {
   }
   update(){
       if (checkDetection(allplayers[1],this) === true){
+            allplayers[1].x = 0;
+            allplayers[1].y = 555;
+            
+   
+
+     
           let shuffledArray = shuffle(allplayers);
          
             setTimeout(() => {
@@ -147,11 +153,11 @@ let enemy3 = new Enemy(-100, 230, 160);
 let allEnemies = [enemy1, enemy2, enemy3];
 
 // Place the player object in a variable called player
-let boy = new Player(undefined, undefined, "images/char-boy.png");
+let boy = new Player(0, 555, "images/char-boy.png");
 let pinkGirl = new Player(undefined, undefined, "images/char-pink-girl.png");
-let catGirl = new Player(undefined, undefined, "images/char-cat-girl.png");
-let hornGirl = new Player(undefined, undefined, "images/char-horn-girl.png");
-let princessGirl = new Player(undefined,undefined,"images/char-princess-girl.png");
+let catGirl = new Player(0, 555, "images/char-cat-girl.png");
+let hornGirl = new Player(0, 555, "images/char-horn-girl.png");
+let princessGirl = new Player(0, 555,"images/char-princess-girl.png");
 let allplayers = [boy, pinkGirl, catGirl, hornGirl, princessGirl];
 
 // intiliaze Player selector block
