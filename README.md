@@ -3,7 +3,7 @@ This Web application game (Classic Arcade Game) was deveoleped using HTML , CSS 
 
 Classic Arcade Game Clone Link :
 
-Play the Game - [Click Here]()
+Play the Game - [Click Here](https://htmlpreview.github.io/?https://github.com/SultanAlomran/UdacityArcadeGameClone/blob/master/index.html)
 
 ## Table of Contents
 
@@ -13,7 +13,7 @@ Play the Game - [Click Here]()
 
 ### Game Rules
 
-![Alt Text](https://giphy.com/gifs/4NgvtsU1H44hxPWzKk/html5)
+![Alt Text](https://media.giphy.com/media/4NgvtsU1H44hxPWzKk/giphy.gif)
 
  - The game consists of a Player and Enimes (Bugs). 
  - Player should reach the water (blue block), without colliding with any enemy.
