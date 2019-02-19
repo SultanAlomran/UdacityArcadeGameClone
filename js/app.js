@@ -216,12 +216,12 @@ let enemy4 = new Enemy(-100, 230, 260);
 let allEnemies = [enemy1, enemy2, enemy3,enemy4];
 
 // Player and (different Charachtes)
-let boy = new Player(0, 555, "images/char-boy.png");
-let pinkGirl = new Player(undefined, undefined, "images/char-pink-girl.png");
+let boy = new Player(undefined, undefined, "images/char-boy.png");
+let pinkGirl = new Player(0, 555, "images/char-pink-girl.png");
 let catGirl = new Player(0, 555, "images/char-cat-girl.png");
 let hornGirl = new Player(0, 555, "images/char-horn-girl.png");
 let princessGirl = new Player(0, 555,"images/char-princess-girl.png");
-let allplayers = [boy, pinkGirl, catGirl, hornGirl, princessGirl];
+let allplayers = [ pinkGirl,boy, catGirl, hornGirl, princessGirl];
 
 // intiliaze Player selector
  let selectorBlock = new PlayerSelector(0,392, "images/Selector.png");
