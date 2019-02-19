@@ -13,7 +13,7 @@ Play the Game - [Click Here](https://htmlpreview.github.io/?https://github.com/S
 
 ### Game Rules
 
-![Alt Text](https://media.giphy.com/media/4NgvtsU1H44hxPWzKk/giphy.gif)
+![ArcadeCloneGame](https://media.giphy.com/media/4NgvtsU1H44hxPWzKk/giphy.gif "ArcadeCloneGame")
 
  - The game consists of a Player and Enimes (Bugs). 
  - Player should reach the water (blue block), without colliding with any enemy.
