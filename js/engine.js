@@ -77,6 +77,8 @@ var Engine = (function(global) {
      * functionality this way (you could just implement collision detection
      * on the entities themselves within your app.js file).
      */
+   
+
     function update(dt) {
         updateEntities(dt);
         // checkDetection(allplayers[1], enemy1);
@@ -97,6 +99,7 @@ var Engine = (function(global) {
         selectorBlock.update();
     }
 
+    
     /* This function initially draws the "game level", it will then call
      * the renderEntities function. Remember, this function is called every
      * game tick (or loop of the game engine) because that's how games work -

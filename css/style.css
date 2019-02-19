@@ -3,8 +3,12 @@ body {
     background: rgb(84,177,255);
     background: linear-gradient(108deg, rgba(84,177,255,1) 25%, rgba(96,230,180,1) 100%, rgba(22,22,139,1) 100%);
 }
+.gradientTwo{
+  background: rgb(255, 171, 92);
+  background: linear-gradient(108deg, rgb(84, 192, 255) 25%, rgb(167, 183, 255) 100%, rgba(22,22,139,1) 100%);
+}
 header{
-    
+    margin-top: 40px;
     justify-content:center;
     align-items:center;
     display: flex;
@@ -57,7 +61,6 @@ h1,h2,h3,h4,h5,h6{
   }
   .closeBtn {
     color: #294a58;
-  
     background-color: rgba(133, 233, 196, 0.897);
     font-size: 27px;
     font-weight: 100;
@@ -72,6 +75,7 @@ h1,h2,h3,h4,h5,h6{
   .successMessage {
     color: #294a58;
     position: relative;
+    margin-top: -25px;
     display: inline-block;
   }
   .successMessage:after {
@@ -84,6 +88,7 @@ h1,h2,h3,h4,h5,h6{
     width: 50%;
     height: 2.5px;
     background-color: #85e9c5;
+    margin-bottom: 20px;
   }
   .restartLink {
     color: #85e9c5;
@@ -98,12 +103,14 @@ h1,h2,h3,h4,h5,h6{
   .results {
     text-align: center;
   }
-  #cloneRating {
-    padding: 0;
-    display: inline-flex;
-    margin: -10px 5px 0 15px;
-    list-style: none;
+  
+  .text-yellow{
+    color:#ffd034;
   }
-  #cloneRating > li {
-    padding: 2px;
+  #totalScore{
+    color:rgb(41, 74, 88);
+    margin-bottom: 0px; 
+  }
+  .mt-2{
+    margin-top: 15px;
   }

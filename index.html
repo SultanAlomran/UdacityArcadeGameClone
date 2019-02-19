@@ -3,21 +3,32 @@
 <head>
     <meta charset="UTF-8">
     <title>Effective JavaScript: Frogger</title>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
     <header>
             <h3>Score: <span id="score">0</span></h3>
     </header>
-
+  
+   </div>
         <div id="congratsModal" class="modal d-none" tabindex="-1">
-                <div class="modal-content">
-                  <span class="closeBtn"><i class="far fa-times-circle"></i></span>
-                  <h3 class="successMessage">Congrats .. you won!</h3>
-                  
-                  
+                <div id="modalContent" class="modal-content">
+                <span class="closeBtn"><i class="far fa-times-circle"></i></span>
+                <h3 class="successMessage">Awesome .. You won!</h3>
+                <div class="mt-2">
+                <span class="text-yellow"><i class="fas fa-star"></i>
+                <span class="text-yellow"><i class="fas fa-star"></i>
+                <span class="text-yellow"><i class="fas fa-star"></i>
                 </div>
-              </div>
+                  </span>
+                  <h3 id="totalScore">
+                  </h3>
+
+                      <h4 class="restartLink">Play Again <i class="fa fa-redo"></i></h4>
+                </div>
+              </div> 
+             
     <script src="js/resources.js"></script> <script src="js/app.js"></script>
     <script src="js/engine.js"></script>   
 

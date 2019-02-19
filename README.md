@@ -19,7 +19,7 @@ Play the Game - [Click Here]()
  - The enemies move in varying speeds on the paved block portion of the scene. 
  - As the Player reaches the water he will be granted 20 point to his score.
  - Once the player collides with an enemy 20 point will be subtracted from total score, and the player moves back to the   start square.
- - Once the  player reach 200 points. He wins the game.
+ - Once the  player reach 100 points. He wins the game.
 
 #### Usage
 
@@ -27,16 +27,16 @@ Play the Game - [Click Here]()
 
     1. Clone this repository or download Zipfile on this repository page.
 
-    2. Extract the folder content and open "index.html" from a brownser for the game to run.
+    2. Extract the folder content and open "index.html" from a browser for the game to run.
 
 
 ##### Technical
 
 This project consists of the following assets:
 
-index.html - contains the game's html structure. 
-app.css - contains the game's styling. 
-app.js - contains game logic. 
-engine.js - contains the rendring of the canvas and game loop.
-rescoures.js - contains the images or sprites used.
-Font-Awesome - used some awesome icons and imported as a CDN. .
+- index.html - contains the app html structure. 
+- Style.css - contains the app styling. 
+- app.js - contains game logic. 
+- engine.js - contains the rendring and drawing of the canvas and game loop.
+- rescoures.js - contains the images or sprites used.
+- Font-Awesome - used some awesome icons and imported as a CDN. .

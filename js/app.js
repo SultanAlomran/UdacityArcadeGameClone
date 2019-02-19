@@ -1,4 +1,5 @@
 let scoreLbl = document.querySelector('#score');
+let background = document.querySelector('body');
         score = 0;
 // Enemies our player must avoid
 var Enemy = function(x, y, speed) {
@@ -23,10 +24,19 @@ Enemy.prototype.update = function(dt) {
    if (this.x > 505){
       this.x=-115;
  }
-  if (checkDetection(this,allplayers[1]) === true){
+  if (checkDetection(this,allplayers[1]) === true)
+  {if(score > 0){
+        score -= 20;
+        score = Math.round(score);
+        scoreLbl.innerHTML = score ;
+      }
+        else if (score <= 0){
+          
+            scoreLbl.innerHTML = score;
+        }
     setTimeout(() => {
         allplayers[1].x = 200;
-        allplayers[1].y = 405;
+        allplayers[1].y = 405;  
       }, 1);
   }
 };
@@ -51,8 +61,6 @@ class Player {
   update() {
     // return the player to starting point when he reaches the blue block after 1/2 second
     if (this.y < 0) {
-        
-        
       setTimeout(() => {
         this.x = 200;
         this.y = 405;
@@ -60,10 +68,14 @@ class Player {
         score += 0.65;
         scoreLbl.innerHTML = Math.floor(score);
       },500 );
-    
-    }
-    
-   }
+     
+    } if (score >= 100){
+      modal.open();
+     }
+ }
+
+
+   
   render() {
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
   }
@@ -88,13 +100,16 @@ class PlayerSelector {
     this.height = height; 
     this.block = block;
   }
-  update(dt){
+  update(){
       if (checkDetection(allplayers[1],this) === true){
             allplayers[1].x = 0;
             allplayers[1].y = 555;    
             let shuffledArray = shuffle(allplayers);
                 allplayers[1].x = 200;
                 allplayers[1].y = 405;
+                score = 0;
+                scoreLbl.innerHTML = score;
+                background.classList.toggle('gradientTwo');
                 allplayers.forEach(function(player){ 
                     console.log(player);
                     if (player === allplayers[1]){
@@ -176,14 +191,13 @@ document.addEventListener("keyup", function(e) {
 
 });
 
-// Creating Modal Constructor
 
-// let modal = document.getElementById("congratsModal");
-// let showModal = function() {
+//  let modal = document.getElementById("congratsModal");
+//  let showModal = function() {
 
-//     // let modalContent = document.getElementsByClassName("modal-content")[0];
-//     // close the modal when close button is clicked
-//     closeBtn.addEventListener("click", closeModal);
+//  let modalContent = document.getElementsByClassName("modal-content")[0];
+//  // close the modal when close button is clicked
+//      closeBtn.addEventListener("click", closeModal);
 
 //   };
 //   let closeModal = function() {
@@ -192,24 +206,39 @@ document.addEventListener("keyup", function(e) {
 
 //   showModal();
 
-// class Modal{
-//     constructor(overlay){
-//         this.overlay = overlay;
-//         const closeOverlay = overlay.querySelector('.closeBtn');
-//         closeOverlay.addEventListener('click', this.closeModal.bind(this));
-//         overlay.addEventListener('click', e => {
-//           if (e.srcElement.id === this.overlay.id) {
-//             this.closeModal();
-//           }
-//         });
-//     }
-//     openModal(){
-//         this.overlay.classList.remove("d-none");
-//     }
-//     closeModal(){
-//         this.overlay.classList.toggle("d-none");
-//     }
-// }
-// const modal = new Modal(document.querySelector('.modal-content'));
-// window.open = modal.openModal.bind(modal);
-// window.open();
+class Modal {
+    constructor(overlay) {
+      this.overlay = overlay;
+      const totalScore = document.querySelector('#totalScore');
+      setInterval(() => {
+        totalScore.textContent = "Total Score : " + scoreLbl.textContent;
+      }, 10);
+      const restartLink = document.querySelector('.restartLink');
+      restartLink.addEventListener("click", this.restart.bind(this));
+      const closeButton = document.querySelector('.closeBtn');
+      closeButton.addEventListener('click', this.close.bind(this));
+      overlay.addEventListener('click', e => {
+        if (e.srcElement.id === this.overlay.id) {
+          this.close();
+        }
+      });
+    }
+    open() {
+      console.log(this.overlay);  
+        this.overlay.classList.remove('d-none');
+    }
+  
+    close() {
+      
+      this.overlay.classList.toggle('d-none');
+    }
+    restart(){
+      location.reload();
+    }
+   
+  }
+  const modal = new Modal(document.querySelector('.modal'));
+
+    
+  
+ 
