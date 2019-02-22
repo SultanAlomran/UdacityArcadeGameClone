@@ -1,16 +1,17 @@
+'use strict';
 /*
  * Global vairables
  */
 let scoreLbl = document.querySelector("#score");
 let background = document.querySelector("body");
-score = 0;
-
+let score = 0;
 /*
- * Function Constructors and Classes
+ * Object Classes
  */
 
 // Enemies the player must avoid :
-var Enemy = function(x, y, speed) {
+class Enemy {
+  constructor(x, y, speed) {
   // set the image of the enemy , its location (x,y),speed , width ,height
   this.sprite = "images/enemy-bug.png";
   this.x = x;
@@ -18,10 +19,24 @@ var Enemy = function(x, y, speed) {
   this.width = 80;
   this.height = 70;
   this.speed = speed;
-};
+}
+
+
+// Update the enemy's position
+// Parameter: dt, a time delta between ticks
+update(dt) {
+  this.updateSpeed(dt);
+  // once the player collides with the enemy change his position back to start and update current score
+  if (this.checkDetection(allplayers[1], this) === true) {
+    this.decreaseScore();
+    setTimeout(() => {
+    this.resetPositon();
+  }, 1);
+  }
+}
 
 // checking collison
-Enemy.prototype.checkDetection = function(object1, object2) {
+checkDetection(object1, object2) {
   if (
     object1.x < object2.x + object2.width &&
     object1.x + object1.width > object2.x &&
@@ -30,40 +45,50 @@ Enemy.prototype.checkDetection = function(object1, object2) {
   ) {
     return true;
   }
-};
-// Update the enemy's position
-// Parameter: dt, a time delta between ticks
-Enemy.prototype.update = function(dt) {
+}
+// reseting players collison
+resetPositon(){
+    allplayers[1].x = 200;
+    allplayers[1].y = 405;
+}
+// updating or setting speed of the Enimes 
+updateSpeed(dt){
   this.x += this.speed * dt;
   if (this.x > 505) {
     this.x = -115;
   }
-  // once the player collides with the enemy change his position back to start and update current score
-  if (this.checkDetection(allplayers[1], this) === true) {
-    if (score > 0) {
-      score -= 20;
-      score = Math.round(score);
-      scoreLbl.innerHTML = score;
-    } else if (score <= 0) {
-      scoreLbl.innerHTML = score;
-    }
-    setTimeout(() => {
-      allplayers[1].x = 200;
-      allplayers[1].y = 405;
-    }, 1);
+}
+// decreasing the score when the collison happen between the player and the enemy
+decreaseScore(){
+  if (score > 0) {
+    score -= 20;
+    score = Math.round(score);
+    scoreLbl.innerHTML = score;
+  } else if (score <= 0) {
+    scoreLbl.innerHTML = score;
   }
-};
-
+}
+ // add 20 as a score for each time player lands on the blue water (I made the score 0.65 cause I am using a time out)
+ increaseScore(){
+  score += 0.65;
+  scoreLbl.innerHTML = Math.floor(score);
+}
+// reset the score back to 0
+resetScore(){
+  score = 0;
+  scoreLbl.innerHTML = score;
+ }
 // Draw the enemy on the screen, required method for game
-Enemy.prototype.render = function() {
+render() {
   ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
-};
+}};
 
 // This class consists of update(), render() and
 // a handleInput() method.
-class Player {
+class Player extends Enemy {
   // set the player on the starting positon (default paramaters)
   constructor(x = 200, y = 405, sprite) {
+    super();
     this.x = x;
     this.y = y;
     this.width = 90; // set image width
@@ -74,24 +99,37 @@ class Player {
     // return the player to starting point when he reaches the blue block after 1/2 second
     if (this.y < 0) {
       setTimeout(() => {
-        this.x = 200;
-        this.y = 405;
-        // add 20 as a score for each time player lands on the blue water (I made the score 0.65 cause I am using a time out)
-        score += 0.65;
-        scoreLbl.innerHTML = Math.floor(score);
+        this.resetPositon();       
+        this.increaseScore();
       }, 500);
-      // once the score reaches 100 game is won and show modal
     }
+     // once the score reaches 100 game is won and show modal
     if (score >= 100) {
       modal.open();
     }
-    //
+    if (this.checkDetection(allplayers[1],selectorBlock) === true){
+      allplayers[1].x = 0;
+      allplayers[1].y = 555; 
+      // Shuffle the array that contain list of players
+      this.shuffle(allplayers);
+      // position the new randomly selected player to starting point
+      allplayers[1].resetPositon();
+      // reset score to 0
+      this.resetScore();
+       // change background color!
+      this.changeBackgroundColor();
+      // reset players position to start
+      allplayers.forEach(function(player){ 
+      if (player === allplayers[1]){
+        player.resetPositon();
+      }
+      });
+      } 
   }
-
-  render() {
-    ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
+  changeBackgroundColor(){
+     // change background color!
+  background.classList.toggle('gradientTwo');
   }
-
   // handle input from keyboard(left,right,up,down) and update new position
   handleInput(keyboardKeys) {
     if (keyboardKeys === "left" && this.x > 0) {
@@ -104,8 +142,28 @@ class Player {
       this.y += 83;
     }
   }
+  shuffle = array => {
+    var currentIndex = array.length;
+    var temporaryValue, randomIndex;
+  
+    // While there remain elements to shuffle...
+    while (0 !== currentIndex) {
+      // Pick a remaining element...
+      randomIndex = Math.floor(Math.random() * currentIndex);
+      currentIndex -= 1;
+  
+      // And swap it with the current element.
+      temporaryValue = array[currentIndex];
+      array[currentIndex] = array[randomIndex];
+      array[randomIndex] = temporaryValue;
+    }
+  
+    return array;
+  };
+  render() {
+    ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
+  }
 }
-// This class consists of update(), render()
 class PlayerSelector {
   // set the block of changing charachter on this point (default paramaters)
   constructor(x, y, block, width = 100, height = 170) {
@@ -144,7 +202,6 @@ class Modal {
     });
   }
   open() {
-    console.log(this.overlay);
     this.overlay.classList.remove("d-none");
   }
   close() {
@@ -154,29 +211,6 @@ class Modal {
     location.reload();
   }
 }
-
-/**
- * Randomly shuffle an array
- * https://stackoverflow.com/a/2450976/1293256
- */
-var shuffle = array => {
-  var currentIndex = array.length;
-  var temporaryValue, randomIndex;
-
-  // While there remain elements to shuffle...
-  while (0 !== currentIndex) {
-    // Pick a remaining element...
-    randomIndex = Math.floor(Math.random() * currentIndex);
-    currentIndex -= 1;
-
-    // And swap it with the current element.
-    temporaryValue = array[currentIndex];
-    array[currentIndex] = array[randomIndex];
-    array[randomIndex] = temporaryValue;
-  }
-
-  return array;
-};
 
 /**
  * Objects Initilaization
@@ -204,7 +238,7 @@ const modal = new Modal(document.querySelector(".modal"));
 
 // This listens for key presses and sends the keys to your
 document.addEventListener("keyup", function(e) {
-  var allowedKeys = {
+  let allowedKeys = {
     37: "left",
     38: "up",
     39: "right",
