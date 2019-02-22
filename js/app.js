@@ -247,3 +247,4 @@ document.addEventListener("keyup", function(e) {
 
   allplayers[1].handleInput(allowedKeys[e.keyCode]);
 });
+  
