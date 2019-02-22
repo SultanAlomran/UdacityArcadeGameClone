@@ -99,7 +99,6 @@ var Engine = (function(global) {
             enemy.update(dt);
         });
         allplayers.forEach(player => player.update());
-        selectorBlock.update();
     }
 
     
